@@ -25,6 +25,3 @@ The primary aim of this project is to facilitate the exploration of spatial occu
 
 This research project was supported by the Hellenic Foundation for Research and Innovation (H.F.R.I.) under the “2nd Call for H.F.R.I. Research Projects to support Faculty Members & Researchers” (Project Number: 3972).
 
-## Citations
-
-The current 
