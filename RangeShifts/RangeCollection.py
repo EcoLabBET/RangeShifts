@@ -1,4 +1,5 @@
-from . import RangeGeospatial,PinkNoise
+from .Range import Range
+from . import RangeGeospatial, PinkNoise
 
 import pandas as pd
 import geopandas as gpd
