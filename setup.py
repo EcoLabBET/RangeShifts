@@ -9,8 +9,8 @@ setup(
     packages=find_packages(),
     install_requires=requirements,
     author='Sofoklis Mouratidis',
-    author_email='s.mouratidis@example.com',
-    description='',
+    author_email='s.mouratidis@uoi.gr',
+    description='A package for handling range shifts in ecological data.',
     url='https://github.com/EcoLabBET/RangeShifts',
     classifiers=[]
 )
