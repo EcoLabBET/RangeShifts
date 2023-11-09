@@ -73,7 +73,7 @@ class Range:
             range = shapely.ops.transform(reprojection,self.Range)
 
             geoseries = gpd.GeoSeries(range,crs=self._equal_area_crs)
-            self._concave_hull = calc_concave_hull(geoseries)
+            self._concave_hull = RangeGeospatial.calc_concave_hull(geoseries)
 
             reprojection = pyproj.Transformer.from_crs(self._equal_area_crs, self.crs, always_xy=True).transform
             self._concave_hull = shapely.ops.transform(reprojection,self._concave_hull)
@@ -82,7 +82,7 @@ class Range:
             range = self.Range
 
             geoseries = gpd.GeoSeries(range,crs=self._equal_area_crs)
-            self._concave_hull = calc_concave_hull(geoseries)
+            self._concave_hull = RangeGeospatial.calc_concave_hull(geoseries)
         return self._concave_hull
 
     @property
@@ -101,7 +101,7 @@ class Range:
             points = shapely.ops.transform(reprojection,self.points)
 
             points = np.vstack([np.array(point.coords) for point in points])
-            self._geometric_median = Weiszfield_geom_median(points)
+            self._geometric_median = RangeGeospatial.Weiszfield_geom_median(points)
 
             reprojection = pyproj.Transformer.from_crs(self._equal_area_crs, self.crs, always_xy=True).transform
             self._geometric_median = shapely.ops.transform(reprojection,self._geometric_median)
@@ -109,7 +109,7 @@ class Range:
           else:
             points = self.points_array()
 
-            self._geometric_median = Weiszfield_geom_median(points)
+            self._geometric_median = RangeGeospatial.Weiszfield_geom_median(points)
         return self._geometric_median
 
 
@@ -176,7 +176,7 @@ class Range:
         xy_array = xy_array[:split_index] if top else xy_array[-split_index:]
 
         #calc representative point
-        return Weiszfield_geom_median(xy_array)
+        return RangeGeospatial.Weiszfield_geom_median(xy_array)
 
     def points_array(self):
         '''
