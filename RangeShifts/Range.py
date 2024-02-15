@@ -25,7 +25,8 @@ class Range:
         convex_hull (shapely.geometry.Polygon): The convex hull of the range geometries.
         _concave_hull (shapely.geometry.Polygon): The concave hull of the range geometries (calculated upon request).
         centroid (shapely.geometry.Point): The centroid of the range geometries.
-        _geometric_median (shapely.geometry.Point): The geometric median of the range geometries (calculated upon request).
+        naive_median (shapely.geometry.Point): The point obtained by taking the median for each dimension seperately
+        _geometric_median (shapely.geometry.Point): The geometric median (Weber-Fermat point) of the range geometries (calculated upon request).
         area (numpy.ndarray): An array of areas of the range geometries.
         density (float): The density of the range (calculated upon request).
         Abundance (int): The number of geometries in the Range.
@@ -50,6 +51,7 @@ class Range:
 
         ## Derived from other attributes (require calculation) --|
         self.centroid = shapely.centroid(shapely.MultiPoint(self.points))
+**        self.naive_median = 
         self._geometric_median = shapely.Point()
 
         # crs independent attributes
@@ -203,6 +205,7 @@ class Range:
         self.convex_hull = shapely.ops.transform(reprojection,self.convex_hull)
         self._concave_hull = shapely.ops.transform(reprojection,self._concave_hull)
         self.centroid = shapely.ops.transform(reprojection,self.centroid)
+        self.naive_median = shapely.ops.transform(reprojection,self.naive_median)
         self._geometric_median = shapely.ops.transform(reprojection,self._geometric_median)
 
         ## By using the geoseries
