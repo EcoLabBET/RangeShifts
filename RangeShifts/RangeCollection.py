@@ -128,6 +128,21 @@ class RangeCollection:
             raise ValueError("Not all items in the collection have the same CRS. Use RangeCollection.reproject() to synchronize them")
 
     @property
+    def naive_medians(self):
+        """
+        Get the naive_medians of the Range instances.
+
+        Returns:
+        list: A list of naive_medians points.
+
+        """
+        if all(range_obj.crs == self.Ranges[0].crs for range_obj in self.Ranges):
+            return [range_obj.naive_median for range_obj in self.Ranges]
+        else:
+            raise ValueError("Not all items in the collection have the same CRS. Use RangeCollection.reproject() to synchronize them")
+
+    
+    @property
     def geometric_medians(self):
         """
         Get the geometric medians of the Range instances.
