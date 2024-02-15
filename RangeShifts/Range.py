@@ -51,7 +51,7 @@ class Range:
 
         ## Derived from other attributes (require calculation) --|
         self.centroid = shapely.centroid(shapely.MultiPoint(self.points))
-**        self.naive_median = 
+        self.naive_median = shapely.Point(np.median(np.vstack([np.array(point.coords) for point in self.points]), axis=0))
         self._geometric_median = shapely.Point()
 
         # crs independent attributes
