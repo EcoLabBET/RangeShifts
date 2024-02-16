@@ -282,20 +282,20 @@ class RangeCollection:
         t_max = len(time)
 
         # White Noise
-        MC = MonteCarlo_significance(xy_array,MC_reps=10**3,
-                                    noise_func= noise_white, noise_kwargs = {'tmax':t_max} )
+        MC = PinkNoise.MonteCarlo_significance(xy_array,MC_reps=10**3,
+                                    noise_func= PinkNoise.noise_white, noise_kwargs = {'tmax':t_max} )
 
         row['Slope_(white)'] = MC[1]
         row['Intercept_(white)'] = MC[2]
         row['White_Significance_MC'] = MC[0]
-        row['White_Significance_fit'] = white_fit_significance(xy_array)
+        row['White_Significance_fit'] = PinkNoise.white_fit_significance(xy_array)
         row['White_signfc_deviation'] = row['White_Significance_fit'] - row['White_Significance_MC']
 
 
 
         # Pink Noise
-        MC = MonteCarlo_significance(xy_array,MC_reps=10**3,
-                                    noise_func = noise_pink, noise_kwargs = {'nu':1,'tmax':t_max,'beta':2})
+        MC = PinkNoise.MonteCarlo_significance(xy_array,MC_reps=10**3,
+                                    noise_func = PinkNoise.noise_pink, noise_kwargs = {'nu':1,'tmax':t_max,'beta':2})
 
 
         row['Slope_(pink)'] = MC[1]
@@ -417,12 +417,12 @@ class RangeCollection:
             n_trends = 100
 
             # white noise
-            slopes_w, intercepts_w = MonteCarlo_compatibleTrends(xy_array,fitted_slope=float(self.MC_Abundances['Slope_(white)']),
-                                                            noise_func= noise_white, noise_kwargs = {'tmax':t_max},n_trends=n_trends )
+            slopes_w, intercepts_w = PinkNoise.MonteCarlo_compatibleTrends(xy_array,fitted_slope=float(self.MC_Abundances['Slope_(white)']),
+                                                            noise_func= PinkNoise.noise_white, noise_kwargs = {'tmax':t_max},n_trends=n_trends )
 
             # pink noise
-            slopes_p, intercepts_p = MonteCarlo_compatibleTrends(xy_array,fitted_slope=float(self.MC_Abundances['Slope_(pink)']),
-                                                            noise_func = noise_pink, noise_kwargs = {'nu':1,'tmax':t_max,'beta':2},n_trends=n_trends )
+            slopes_p, intercepts_p = PinkNoise.MonteCarlo_compatibleTrends(xy_array,fitted_slope=float(self.MC_Abundances['Slope_(pink)']),
+                                                            noise_func = PinkNoise.noise_pink, noise_kwargs = {'nu':1,'tmax':t_max,'beta':2},n_trends=n_trends )
 
 
             data = pd.DataFrame({'Slope(white)': slopes_w,'Intercept(white)': intercepts_w,
