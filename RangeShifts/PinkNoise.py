@@ -122,8 +122,17 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs):
 
     # Calculate the proportion of times the slope of the simulated noise is
     # greater than the absolute value of the slope from the original data
-
     p_value = (sum(slopes > abs_slope) + 1) / (2 * MC_reps)
+
+    ## logging _____________________________________| 
+
+    estimations = []
+
+    for i in range(100, len(slopes), 100):
+        estimations.append((sum(slopes[:i] > abs_slope) + 1) / (2 * i))
+
+    
+    ## =============================================|
 
     # Return the calculated proportion
     return [p_value,slope,intercept]
