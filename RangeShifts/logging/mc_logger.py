@@ -10,7 +10,10 @@ class MC_logger:
         log_entry = {
             "timestamp": time.time(),
             "log_level": "INFO",
-            "message": f"Function '{function_name}' called with arguments {args} for RangeCollection '{range_collection_name}'."
+            "message": {'function' : function_name,
+                        'args': args,
+                        'RangeCollection_name': range_collection_name
+                       }
         }
         self.log_data.append(log_entry)
         self._save_log_data()
@@ -19,22 +22,15 @@ class MC_logger:
         log_entry = {
             "timestamp": time.time(),
             "log_level": "INFO",
-            "message": f"Function '{function_name}' output: {output}."
+            "message": {'output': output,
+                        'estimation_values': estimation_values
+                       }
         }
-        if estimation_values:
-            log_entry["estimation_values"] = estimation_values
+        
         self.log_data.append(log_entry)
         self._save_log_data()
 
-    def log_estimations(self, estimations):
-        log_entry = {
-            "timestamp": time.time(),
-            "log_level": "INFO",
-            "message": "Estimations every 100 iterations:",
-            "estimations": estimations
-        }
-        self.log_data.append(log_entry)
-        self._save_log_data()
+
 
     def _save_log_data(self):
         with open(self.log_filename, 'w') as file:
