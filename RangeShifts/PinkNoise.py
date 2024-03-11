@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.stats import linregress, t
+from .logging.mc_logger import mc_logger
 
 
 def noise_pink(nu, tmax, **kwargs):
@@ -93,11 +94,11 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
     list: A list containing the p-value, slope, and intercept.
     """
     ## logging _____________________________________| 
-    log_function_call(function_name ="MonteCarlo_significance()", 
-                      args = {'MC_reps' : MC_reps,
-                              'noise_func':str(noise_func),
-                              'noise_kwargs':noise_kwargs},
-                      **log_kwargs)
+    mc_logger.log_function_call(function_name ="MonteCarlo_significance()",
+                               args = {'MC_reps' : MC_reps,
+                                       'noise_func':str(noise_func),
+                                       'noise_kwargs':noise_kwargs},
+                               **log_kwargs)
     ## =============================================|  
 
     x_array, y_array = xy_array
@@ -137,12 +138,12 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
     for i in range(100, len(slopes), 100):
         estimations.append((sum(slopes[:i] > abs_slope) + 1) / (2 * i))
 
-    log_function_output(function_name = "MonteCarlo_significance()",
-                        output = {'p_value':p_value,
-                                  'slope':slope,
-                                  'intercept':intercept},
-                        estimation_values = estimations
-                       )
+    mc_logger.log_function_output(function_name = "MonteCarlo_significance()",
+                                  output = {'p_value':p_value,
+                                            'slope':slope,
+                                            'intercept':intercept},
+                                  estimation_values = estimations
+                                 )
 
     ## =============================================|
 
