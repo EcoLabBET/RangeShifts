@@ -44,14 +44,15 @@ class MC_logger:
 
     def plot_output_logs(self, pdf_filename='output_logs.pdf'):
         output_logs = self.get_output_logs()
-        num_rows,num_cols = 7,3
+        num_rows,num_cols = 6,3
         entries_per_page = num_rows*num_cols
+        total_subplots = len(output_logs)
 
         with PdfPages(pdf_filename) as pdf:
             for page_num, log_entry in enumerate(output_logs):
                 if page_num % entries_per_page == 0:
                     num_pages_needed = np.ceil(len(output_logs) / entries_per_page)
-                    fig, axs = plt.subplots(num_rows, num_cols, figsize=(15, 10))  # Define grid size based on num_rows and num_cols
+                    fig, axs = plt.subplots(num_rows, num_cols, figsize=(9, 12))  # Define grid size based on num_rows and num_cols
                     fig.subplots_adjust(hspace=0.5, wspace=0.3)  # Adjust spacing
 
                 # Calculate subplot position
