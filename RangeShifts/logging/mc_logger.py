@@ -36,8 +36,21 @@ class MC_logger:
         with open(self.log_filename, 'w') as file:
             json.dump(self.log_data, file, indent=4)
 
+
+class LoggerSingleton:
+    '''
+    Singleton class to manage the instance of the logger used throughout the simulations.
+    '''
+    _instance = None
+
+    @classmethod
+    def get_instance(cls):
+        if not cls._instance:
+            cls._instance = MC_logger()
+        return cls._instance
+
 def initialize_logging():
-    mc_logger = MC_logger()
+    mc_logger = LoggerSingleton.get_instance()
     # Optionally log initial setup information
     mc_logger.log_output("Initialization", "Logging initialized.")
     return mc_logger
