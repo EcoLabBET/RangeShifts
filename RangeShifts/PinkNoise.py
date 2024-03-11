@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import linregress, t
-from .logging.mc_logger import mc_logger
+from logging import mc_logger
 
 
 def noise_pink(nu, tmax, **kwargs):
