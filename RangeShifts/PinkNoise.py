@@ -136,7 +136,7 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
     estimations = []
 
     for i in range(100, len(slopes), 100):
-        estimations.append((sum(slopes[:i] > abs_slope) + 1) / (2 * i))
+        estimations.append((sum(slopes[0:i] > abs_slope) + 1) / (2 * i))
 
     mc_logger.log_output(function_name = "MonteCarlo_significance()",
                                   output = {'p_value':p_value,

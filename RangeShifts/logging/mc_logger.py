@@ -44,7 +44,7 @@ class MC_logger:
 
     def plot_output_logs(self, pdf_filename='output_logs.pdf'):
         output_logs = self.get_output_logs()
-        num_rows,num_cols = 6,3
+        num_rows,num_cols = 5,3
         entries_per_page = num_rows*num_cols
 
         with PdfPages(pdf_filename) as pdf:
@@ -81,7 +81,8 @@ class MC_logger:
                     plt.close(fig)
 
         if len(output_logs) % entries_per_page != 0:
-            pdf.savefig(fig) if pdf is not None else None  # Save the page if pdf is not None
+            if pdf is not None:
+                pdf.savefig(fig)
             plt.close(fig)
 
 
