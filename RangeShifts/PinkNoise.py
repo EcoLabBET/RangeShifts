@@ -3,6 +3,7 @@ from scipy.stats import linregress, t
 from .logging import mc_logger
 
 
+
 def noise_pink(nu, tmax, **kwargs):
     """
     Generate pink noise.
