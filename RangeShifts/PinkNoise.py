@@ -138,7 +138,25 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs):
     return [p_value,slope,intercept]
 
 
+def white_fit_significance(xy_array):
+    """
+    Calculate significance by fitting a line to the data using scipy.stats.linregress.
 
+    Parameters:
+    xy_array (numpy.ndarray): A 2D array where the first column represents x data and the second column represents y data.
+
+    Returns:
+    float: The calculated p-value for the linear fit.
+    """
+    x_array, y_array = xy_array
+
+    # Calculate linear regression
+    slope, intercept, r_value, p_value, std_err = linregress(x_array, y_array)
+
+    # Return p-value
+    return p_value
+
+'''
 def white_fit_significance(xy_array):
     """
     Calculate significance by fitting a line to the data.
@@ -167,6 +185,7 @@ def white_fit_significance(xy_array):
 
     #return p_value
     return p_value
+'''
 
 def pink_fit_significance(data_points):
     """
