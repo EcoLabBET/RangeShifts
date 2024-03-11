@@ -6,7 +6,7 @@ class MC_logger:
         self.log_filename = log_filename
         self.log_data = []
         
-    def log_function_call(self, function_name, args, range_collection_name,**log_kwargs):
+    def log_function_call(self, function_name, args,**log_kwargs):
         log_entry = {
             "timestamp": time.time(),
             "log_level": "INFO",
