@@ -167,8 +167,8 @@ def white_fit_significance(xy_array):
     # Calculate linear regression
     slope, intercept, r_value, p_value, std_err = linregress(x_array, y_array)
 
-    # Return p-value
-    return p_value
+    # Return one-sided p-value
+    return p_value/2
 
 '''
 def white_fit_significance(xy_array):
