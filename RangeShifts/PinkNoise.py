@@ -78,7 +78,7 @@ def noise_white( tmax, **kwargs):
 
 
 
-def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs):
+def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwargs={}):
 
     """
     Run Monte Carlo simulations to check the significance of slopes.
@@ -92,6 +92,13 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs):
     Returns:
     list: A list containing the p-value, slope, and intercept.
     """
+    ## logging _____________________________________| 
+    log_function_call(function_name ="MonteCarlo_significance()", 
+                      args = {'MC_reps' : MC_reps,
+                              'noise_func':noise_func,
+                              'noise_kwargs':noise_kwargs},
+                      **log_kwargs)
+    ## =============================================|  
 
     x_array, y_array = xy_array
 
@@ -124,14 +131,19 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs):
     # greater than the absolute value of the slope from the original data
     p_value = (sum(slopes > abs_slope) + 1) / (2 * MC_reps)
 
-    ## logging _____________________________________| 
-
+    ## logging _____________________________________|  
     estimations = []
 
     for i in range(100, len(slopes), 100):
         estimations.append((sum(slopes[:i] > abs_slope) + 1) / (2 * i))
 
-    
+    log_function_output(function_name = "MonteCarlo_significance()",
+                        output = {'p_value':p_value,
+                                  'slope':slope,
+                                  'intercept':intercept},
+                        estimation_values = estimations
+                       )
+
     ## =============================================|
 
     # Return the calculated proportion
