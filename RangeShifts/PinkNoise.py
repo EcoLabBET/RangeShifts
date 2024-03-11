@@ -143,7 +143,7 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
                                             'slope':slope,
                                             'intercept':intercept},
                                   estimation_values = estimations,
-                                  'log_kwargs': log_kwargs
+                                  log_kwargs = log_kwargs
                                  )
 
     ## =============================================|
