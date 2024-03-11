@@ -52,8 +52,6 @@ class LoggerSingleton:
 
 def initialize_logging():
     mc_logger = LoggerSingleton.get_instance()
-    # Optionally log initial setup information
-    mc_logger.log_output("Initialization", "Logging initialized.")
     return mc_logger
 
 # Call the initialization function when the module is imported
