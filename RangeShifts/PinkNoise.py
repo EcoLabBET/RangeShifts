@@ -98,8 +98,7 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
     mc_logger.log_function_call(function_name ="MonteCarlo_significance()",
                                args = {'MC_reps' : MC_reps,
                                        'noise_func':str(noise_func),
-                                       'noise_kwargs':noise_kwargs},
-                               **log_kwargs)
+                                       'noise_kwargs':noise_kwargs})
     ## =============================================|  
 
     x_array, y_array = xy_array
@@ -143,7 +142,8 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
                                   output = {'p_value':p_value,
                                             'slope':slope,
                                             'intercept':intercept},
-                                  estimation_values = estimations
+                                  estimation_values = estimations,
+                                  'log_kwargs': log_kwargs
                                  )
 
     ## =============================================|

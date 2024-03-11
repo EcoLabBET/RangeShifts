@@ -284,7 +284,7 @@ class RangeCollection:
         # White Noise
         MC = PinkNoise.MonteCarlo_significance(xy_array,MC_reps=10**3,
                                                noise_func= PinkNoise.noise_white, noise_kwargs = {'tmax':t_max},
-                                               log_kwargs={'RangeCollection_name':self.name})
+                                               log_kwargs={'name':self.name})
 
         row['Slope_(white)'] = MC[1]
         row['Intercept_(white)'] = MC[2]
@@ -297,7 +297,7 @@ class RangeCollection:
         # Pink Noise
         MC = PinkNoise.MonteCarlo_significance(xy_array,MC_reps=10**3,
                                                noise_func = PinkNoise.noise_pink, noise_kwargs = {'nu':1,'tmax':t_max,'beta':2},
-                                               log_kwargs={'RangeCollection_name':self.name})
+                                               log_kwargs={'name':self.name})
 
 
         row['Slope_(pink)'] = MC[1]
