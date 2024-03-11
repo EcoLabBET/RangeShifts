@@ -1,1 +1,1 @@
-from .logging.mc_logger import mc_logger
+from .mc_logger import mc_logger
