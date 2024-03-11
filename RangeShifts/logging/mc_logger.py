@@ -1,5 +1,6 @@
 import json
 import time
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
@@ -49,7 +50,7 @@ class MC_logger:
         with PdfPages(pdf_filename) as pdf:
             for page_num, log_entry in enumerate(output_logs):
                 if page_num % entries_per_page == 0:
-                    num_pages_needed = math.ceil(len(output_logs) / entries_per_page)
+                    num_pages_needed = np.ceil(len(output_logs) / entries_per_page)
                     fig, axs = plt.subplots(num_rows, num_cols, figsize=(15, 10))  # Define grid size based on num_rows and num_cols
                     fig.subplots_adjust(hspace=0.5, wspace=0.3)  # Adjust spacing
 
