@@ -95,7 +95,7 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
     ## logging _____________________________________| 
     log_function_call(function_name ="MonteCarlo_significance()", 
                       args = {'MC_reps' : MC_reps,
-                              'noise_func':noise_func,
+                              'noise_func':str(noise_func),
                               'noise_kwargs':noise_kwargs},
                       **log_kwargs)
     ## =============================================|  
