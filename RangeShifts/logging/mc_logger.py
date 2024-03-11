@@ -43,17 +43,19 @@ class MC_logger:
 
     def plot_output_logs(self, pdf_filename='output_logs.pdf'):
         output_logs = self.get_output_logs()
-        entries_per_page = 12  # 3 columns x 4 rows per page
+        num_rows,num_cols = 7,3
+        entries_per_page = num_rows*num_cols
 
         with PdfPages(pdf_filename) as pdf:
             for page_num, log_entry in enumerate(output_logs):
                 if page_num % entries_per_page == 0:
-                    fig, axs = plt.subplots(4, 3, figsize=(15, 10))  # 3x4 grid
+                    num_pages_needed = math.ceil(len(output_logs) / entries_per_page)
+                    fig, axs = plt.subplots(num_rows, num_cols, figsize=(15, 10))  # Define grid size based on num_rows and num_cols
                     fig.subplots_adjust(hspace=0.5, wspace=0.3)  # Adjust spacing
 
                 # Calculate subplot position
-                row = page_num // 3 % 4
-                col = page_num % 3
+                row = (page_num % total_subplots) // num_cols
+                col = (page_num % total_subplots) % num_cols
 
                 # Handle Log
                 output = log_entry['message']['output']
@@ -64,23 +66,20 @@ class MC_logger:
                     name = None
 
                 ax = axs[row, col]
-                ax.plot(estimation_values)
+                ax.plot(np.arange(100, len(estimation_values)*100+1, 100),estimation_values)
                 ax.axhline(y=output['p_value'], color='black', linestyle='--')
                 ax.set_xlabel('Iterations')
                 ax.set_ylabel('Estimation Value')
                 ax.set_title(f'{name}')
                 ax.grid(True)
 
-                # Adjust x-axis ticks to change by 100
-                x_ticks = range(100, len(estimation_values), 100)
-                ax.set_xticks(x_ticks)
 
                 if (page_num + 1) % entries_per_page == 0 or page_num == len(output_logs) - 1:
                     pdf.savefig(fig)
                     plt.close(fig)
 
         if len(output_logs) % entries_per_page != 0:
-            pdf.savefig(fig)  # Save the last page if it's not full
+            pdf.savefig(fig) if pdf is not None else None  # Save the page if pdf is not None
             plt.close(fig)
 
 
