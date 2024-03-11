@@ -40,6 +40,7 @@ class MC_logger:
 class LoggerSingleton:
     '''
     Singleton class to manage the instance of the logger used throughout the simulations.
+    Reduntant for now. Might be usefull for the future, if more flexibility at the instantaniation is needed.
     '''
     _instance = None
 
