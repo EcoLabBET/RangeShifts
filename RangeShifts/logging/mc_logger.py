@@ -46,7 +46,6 @@ class MC_logger:
         output_logs = self.get_output_logs()
         num_rows,num_cols = 6,3
         entries_per_page = num_rows*num_cols
-        total_subplots = len(output_logs)
 
         with PdfPages(pdf_filename) as pdf:
             for page_num, log_entry in enumerate(output_logs):
@@ -55,9 +54,10 @@ class MC_logger:
                     fig, axs = plt.subplots(num_rows, num_cols, figsize=(9, 12))  # Define grid size based on num_rows and num_cols
                     fig.subplots_adjust(hspace=0.5, wspace=0.3)  # Adjust spacing
 
+
                 # Calculate subplot position
-                row = (page_num % total_subplots) // num_cols
-                col = (page_num % total_subplots) % num_cols
+                row = (page_num // num_cols) % num_rows
+                col = page_num % num_cols
 
                 # Handle Log
                 output = log_entry['message']['output']
