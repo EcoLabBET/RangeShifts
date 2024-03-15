@@ -1,5 +1,7 @@
 import numpy as np
 from scipy.stats import linregress, t
+from .logging import mc_logger
+
 
 
 def noise_pink(nu, tmax, **kwargs):
@@ -78,7 +80,7 @@ def noise_white( tmax, **kwargs):
 
 
 
-def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs):
+def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwargs={}):
 
     """
     Run Monte Carlo simulations to check the significance of slopes.
@@ -92,6 +94,12 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs):
     Returns:
     list: A list containing the p-value, slope, and intercept.
     """
+    ## logging _____________________________________| 
+    mc_logger.log_function_call(function_name ="MonteCarlo_significance()",
+                               args = {'MC_reps' : MC_reps,
+                                       'noise_func':str(noise_func),
+                                       'noise_kwargs':noise_kwargs})
+    ## =============================================|  
 
     x_array, y_array = xy_array
 
@@ -122,14 +130,47 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs):
 
     # Calculate the proportion of times the slope of the simulated noise is
     # greater than the absolute value of the slope from the original data
-
     p_value = (sum(slopes > abs_slope) + 1) / (2 * MC_reps)
+
+    ## logging _____________________________________|  
+    estimations = []
+
+    for i in range(100, len(slopes), 100):
+        estimations.append((sum(slopes[0:i] > abs_slope) + 1) / (2 * i))
+
+    mc_logger.log_output(function_name = "MonteCarlo_significance()",
+                                  output = {'p_value':p_value,
+                                            'slope':slope,
+                                            'intercept':intercept},
+                                  estimation_values = estimations,
+                                  log_kwargs = log_kwargs
+                                 )
+
+    ## =============================================|
 
     # Return the calculated proportion
     return [p_value,slope,intercept]
 
 
+def white_fit_significance(xy_array):
+    """
+    Calculate significance by fitting a line to the data using scipy.stats.linregress.
 
+    Parameters:
+    xy_array (numpy.ndarray): A 2D array where the first column represents x data and the second column represents y data.
+
+    Returns:
+    float: The calculated p-value for the linear fit.
+    """
+    x_array, y_array = xy_array
+
+    # Calculate linear regression
+    slope, intercept, r_value, p_value, std_err = linregress(x_array, y_array)
+
+    # Return one-sided p-value
+    return p_value/2
+
+'''
 def white_fit_significance(xy_array):
     """
     Calculate significance by fitting a line to the data.
@@ -158,6 +199,7 @@ def white_fit_significance(xy_array):
 
     #return p_value
     return p_value
+'''
 
 def pink_fit_significance(data_points):
     """
