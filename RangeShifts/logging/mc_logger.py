@@ -85,6 +85,9 @@ class MC_logger:
                 pdf.savefig(fig)
             plt.close(fig)
 
+    def reset(self):
+        self.log_data = []
+        self._save_log_data()
 
 
     def _save_log_data(self):
