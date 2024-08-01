@@ -297,7 +297,7 @@ class RangeCollection:
         # Pink Noise
         MC = PinkNoise.MonteCarlo_significance(xy_array,MC_reps=10**3,
                                                noise_func = PinkNoise.noise_pink, noise_kwargs = {'nu':1,'tmax':t_max,'beta':2},
-                                               log_kwargs={'name':self.name})
+                                               log_kwargs={'name':self.name,'info':msg_info})
 
 
         row['Slope_(pink)'] = MC[1]
