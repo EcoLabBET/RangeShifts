@@ -331,7 +331,7 @@ class RangeCollection:
 
           for name,array in diction.items():
             # Add row to table
-            row = self._MC_estimates_row(array,msg_info=name)
+            row = self._MC_estimates_row(array,msg_info=f'{name}')
             row_df = pd.DataFrame(row, index=[name])
             table = pd.concat([table, row_df], ignore_index=False)
 
