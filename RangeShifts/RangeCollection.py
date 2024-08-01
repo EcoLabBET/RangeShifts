@@ -262,7 +262,7 @@ class RangeCollection:
           return z.y
         return self.edge_df.applymap(func)
 
-    def _MC_estimates_row(self, array):
+    def _MC_estimates_row(self, array, msg_info=None):
         """
         Construct a row (dictionary) for Monte Carlo estimates.
 
@@ -284,7 +284,7 @@ class RangeCollection:
         # White Noise
         MC = PinkNoise.MonteCarlo_significance(xy_array,MC_reps=10**3,
                                                noise_func= PinkNoise.noise_white, noise_kwargs = {'tmax':t_max},
-                                               log_kwargs={'name':self.name})
+                                               log_kwargs={'name':self.name,'info':msg_info})
 
         row['Slope_(white)'] = MC[1]
         row['Intercept_(white)'] = MC[2]
@@ -331,7 +331,7 @@ class RangeCollection:
 
           for name,array in diction.items():
             # Add row to table
-            row = self._MC_estimates_row(array)
+            row = self._MC_estimates_row(array,msg_info=name)
             row_df = pd.DataFrame(row, index=[name])
             table = pd.concat([table, row_df], ignore_index=False)
 
@@ -352,7 +352,7 @@ class RangeCollection:
           table = pd.DataFrame()
 
           for idx,row_values in self.edges_x.iterrows():
-              row = self._MC_estimates_row(np.array(row_values))
+              row = self._MC_estimates_row(np.array(row_values),msg_info=f'x_edge_alpha={idx}')
               row_df = pd.DataFrame(row, index=[idx])
               table = pd.concat([table, row_df], ignore_index=False)
 
@@ -374,7 +374,7 @@ class RangeCollection:
           table = pd.DataFrame()
 
           for idx,row_values in self.edges_x.iterrows():
-              row = self._MC_estimates_row(np.array(row_values))
+              row = self._MC_estimates_row(np.array(row_values),msg_info=f'y_edge_alpha={idx}')
               row_df = pd.DataFrame(row, index=[idx])
               table = pd.concat([table, row_df], ignore_index=False)
 
@@ -393,7 +393,7 @@ class RangeCollection:
 
         """
         if self._MC_Abundances is None:
-            table = pd.DataFrame(self._MC_estimates_row(np.array(self.Abundances)),index=['Abundance'])
+            table = pd.DataFrame(self._MC_estimates_row(np.array(self.Abundances),msg_info=f'abundance'),index=['Abundance'])
 
             self._MC_Abundances = table
         return self._MC_Abundances
