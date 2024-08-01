@@ -44,46 +44,39 @@ class MC_logger:
 
     def plot_output_logs(self, pdf_filename='output_logs.pdf'):
         output_logs = self.get_output_logs()
-        num_rows,num_cols = 5,3
-        entries_per_page = num_rows*num_cols
-
+        num_rows, num_cols = 5, 3
+        entries_per_page = num_rows * num_cols
+    
         with PdfPages(pdf_filename) as pdf:
+            num_pages_needed = np.ceil(len(output_logs) / entries_per_page)
             for page_num, log_entry in enumerate(output_logs):
                 if page_num % entries_per_page == 0:
-                    num_pages_needed = np.ceil(len(output_logs) / entries_per_page)
                     fig, axs = plt.subplots(num_rows, num_cols, figsize=(9, 12))  # Define grid size based on num_rows and num_cols
                     fig.subplots_adjust(hspace=0.5, wspace=0.3)  # Adjust spacing
-
-
-                # Calculate subplot position
+    
                 row = (page_num // num_cols) % num_rows
                 col = page_num % num_cols
-
-                # Handle Log
+    
                 output = log_entry['message']['output']
                 estimation_values = log_entry['message']['estimation_values']
-                if 'name' in log_entry['message']['log_kwargs']:
-                    name = log_entry['message']['log_kwargs']['name']
-                else:
-                    name = None
-
+                name = log_entry['message']['log_kwargs'].get('name', 'No Name')
+    
                 ax = axs[row, col]
-                ax.plot(np.arange(100, len(estimation_values)*100+1, 100),estimation_values)
+                ax.plot(np.arange(100, len(estimation_values) * 100 + 1, 100), estimation_values)
                 ax.axhline(y=output['p_value'], color='black', linestyle='--')
                 ax.set_xlabel('Iterations')
                 ax.set_ylabel('Estimation Value')
                 ax.set_title(f'{name}')
                 ax.grid(True)
-
-
+    
                 if (page_num + 1) % entries_per_page == 0 or page_num == len(output_logs) - 1:
                     pdf.savefig(fig)
                     plt.close(fig)
-
-        if len(output_logs) % entries_per_page != 0:
-            if pdf is not None:
+    
+            if len(output_logs) % entries_per_page != 0:
                 pdf.savefig(fig)
-            plt.close(fig)
+                plt.close(fig)
+
 
     def reset(self):
         self.log_data = []
