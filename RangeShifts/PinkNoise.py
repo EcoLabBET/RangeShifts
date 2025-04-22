@@ -129,7 +129,7 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
 
       # Generate noise and sample the points of the x_array
       noise = noise_func(**noise_kwargs)
-      idx = np.round(x_array[-1] - x_array[0]).astype(int)
+      idx = np.round(x_array - x_array[0]).astype(int)
       noise = noise[idx]
 
       # Scale the noise to have the same standard deviation as the original data
