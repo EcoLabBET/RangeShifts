@@ -100,8 +100,18 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
                                        'noise_func':str(noise_func),
                                        'noise_kwargs':noise_kwargs})
     ## =============================================|  
+    
 
     x_array, y_array = xy_array
+
+    ## tmax check __________________________________|
+    actual_tmax = x_array[-1] - x_array[0]
+    if not np.isclose(actual_tmax, noise_kwargs['tmax'], rtol=1e-5):
+        raise ValueError(
+            f"tmax mismatch: x_array spans {actual_tmax}, "
+            f"noise_kwargs has {noise_kwargs['tmax']}"
+        )
+    ## =============================================|  
 
     # Fit a linear regression line to the data_points
     slope, intercept = np.polyfit(x_array, y_array,deg= 1)
