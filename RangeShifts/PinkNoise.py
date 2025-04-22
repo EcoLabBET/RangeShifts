@@ -105,7 +105,7 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
     x_array, y_array = xy_array
 
     ## tmax check __________________________________|
-    actual_tmax = x_array[-1] - x_array[0]
+    actual_tmax = x_array[-1] - x_array[0] + 1
     if not np.isclose(actual_tmax, noise_kwargs['tmax'], rtol=1e-5):
         raise ValueError(
             f"tmax mismatch: x_array spans {actual_tmax}, "
@@ -129,7 +129,7 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
 
       # Generate noise and sample the points of the x_array
       noise = noise_func(**noise_kwargs)
-      idx = np.round(x_array - min_year).astype(int)
+      idx = np.round(x_array[-1] - x_array[0]).astype(int)
       noise = noise[idx]
 
       # Scale the noise to have the same standard deviation as the original data
