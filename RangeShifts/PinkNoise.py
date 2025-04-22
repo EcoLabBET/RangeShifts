@@ -117,8 +117,10 @@ def MonteCarlo_significance(xy_array, MC_reps, noise_func, noise_kwargs,log_kwar
     # Simulate noise and fit linear regression lines for a given number of repetitions
     for i in range(MC_reps-1):
 
-      # Define the noise function
+      # Generate noise and sample the points of the x_array
       noise = noise_func(**noise_kwargs)
+      idx = np.round(x_array - min_year).astype(int)
+      noise = noise[idx]
 
       # Scale the noise to have the same standard deviation as the original data
       scaled_noise = noise - np.mean(noise)
