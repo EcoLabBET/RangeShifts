@@ -34,6 +34,15 @@ class MC_logger:
         self.log_data.append(log_entry)
         self._save_log_data()
 
+    def load_logs(self, filename=None):
+        """Load logs from a JSON file."""
+        filename = filename or self.log_filename
+        try:
+            with open(filename, 'r') as f:
+                self.log_data = json.load(f)
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Log file {filename} not found")
+
  ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
  ## USE THE FOLLOWING WITH CAUTION, AS IN THE FUTURE batch saving
  ## might be introduced to prevent memmory explosion. get_output_logs()
